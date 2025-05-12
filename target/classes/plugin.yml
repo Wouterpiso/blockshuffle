@@ -1,0 +1,8 @@
+name: BlockShuffle
+version: 1.0
+main: com.wpiso.blockshuffle.BlockShufflePlugin
+api-version: 1.20
+commands:
+  startshuffle:
+    description: Start het Block Shuffle spel
+    usage: /startshuffle <levens> <intervalInSeconden>
