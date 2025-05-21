@@ -111,14 +111,14 @@ public class BlockShufflePlugin extends JavaPlugin implements Listener {
                 }
 
                 // Countdown from 10 seconds
-                if (timeLeft <= 10) {
+                if (timeLeft <= 10 && timeLeft > 0) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§cNog " + timeLeft + " seconden...");
                     }
                 }
 
                 // End the round when time is up
-                if (timeLeft <= 0) {
+                if (timeLeft <= 1) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§cDe tijd is om!");
                     }
@@ -158,12 +158,10 @@ public class BlockShufflePlugin extends JavaPlugin implements Listener {
                             PlayerData data = players.get(uuid);
 
                             if (data.getLives() > 0) {
-                                Block blockUnderPlayer = player.getLocation().getBlock();
-                                Material blockInHand = player.getInventory().getItemInMainHand().getType();
-
-                                // Check if player is on or holding the correct block
+                                Block blockUnderPlayer = player.getLocation().clone().add(0, -1,0).getBlock();
+                                Block blockPlayer = player.getLocation().getBlock();
                                 if (blockUnderPlayer.getType() != data.getTargetBlock()
-                                        && blockInHand != data.getTargetBlock()
+                                        && blockPlayer.getType() != data.getTargetBlock()
                                         && !data.hasStoodOnCorrectBlock()) {
                                     data.loseLife();
                                     player.getWorld().createExplosion(player.getLocation(), 2F, false, false);
@@ -185,7 +183,7 @@ public class BlockShufflePlugin extends JavaPlugin implements Listener {
                             }
                         }
                     }
-                }.runTaskLater(BlockShufflePlugin.this, 20L * roundInterval); // Check after round time
+                }.runTaskLater(BlockShufflePlugin.this, 20L * roundInterval - 1L); // Check after round time
             }
         };
 
@@ -219,11 +217,10 @@ public class BlockShufflePlugin extends JavaPlugin implements Listener {
                             PlayerData data = players.get(uuid);
 
                             if (data.getLives() > 0) {
-                                Block blockUnderPlayer = player.getLocation().getBlock();
-                                Material blockInHand = player.getInventory().getItemInMainHand().getType();
-
+                                Block blockUnderPlayer = player.getLocation().clone().add(0, -1,0).getBlock();
+                                Block blockPlayer = player.getLocation().getBlock();
                                 if (blockUnderPlayer.getType() != data.getTargetBlock()
-                                        && blockInHand != data.getTargetBlock()
+                                        && blockPlayer.getType() != data.getTargetBlock()
                                         && !data.hasStoodOnCorrectBlock()) {
                                     data.loseLife();
                                     player.getWorld().createExplosion(player.getLocation(), 2F, false, false);
@@ -265,7 +262,7 @@ public class BlockShufflePlugin extends JavaPlugin implements Listener {
                             }
                         }
                     }
-                }.runTaskLater(BlockShufflePlugin.this, 20L * roundInterval);
+                }.runTaskLater(BlockShufflePlugin.this, 20L * roundInterval - 1L);
             }
         };
 
